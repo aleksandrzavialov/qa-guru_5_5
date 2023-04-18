@@ -1,9 +1,12 @@
 from selene.support.shared import browser
 from selene import be, have, command
+from helper_functions import remove
 import os
 
 
 def test_form_filling(browser_actions):
+    browser.open('/automation-practice-form')
+    remove('#fixedban')
     browser.element('#firstName').should(be.blank).type('Ivan')
     browser.element('#lastName').should(be.blank).type('Petrov')
     browser.element('#userEmail').should(be.blank).type('ivanpetrov@mail.ru')
@@ -21,7 +24,7 @@ def test_form_filling(browser_actions):
     browser.element('#react-select-3-option-1').click()
     browser.element('#city').should(be.clickable).click()
     browser.element('#react-select-4-option-2').click()
-    browser.element('#submit').click()
+    browser.element('#submit').execute_script('element.click()')
     browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
     browser.all(' td:nth-of-type(1)').should(have.exact_texts('Student Name', 'Student Email', 'Gender', 'Mobile',
                                                               'Date of Birth', 'Subjects', 'Hobbies', 'Picture',
